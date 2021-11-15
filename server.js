@@ -12,14 +12,15 @@ var passport = require('./config/passport')
 var util = require('./util')
 var app = express()
 
-/*mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-db.on('error', error => console.error(error))
-db.once('open', () => console.log('Connected to Mongoose'))*/
-
 mongoose.connect(process.env.DATABASE_URL, async(err) => {
   if(err) throw err
 })
+
+//const db = mongoose.connection
+//db.on('error', error => console.error(error))
+//db.once('open', () => console.log('Connected to Mongoose'))
+
+
 
 // Other settings
 app.set('view engine', 'ejs')
@@ -49,4 +50,4 @@ app.use('/users', require('./routes/user'))
 app.use('/comments', util.getPostQueryString, require('./routes/comment'))
 app.use('/files', require('./routes/file'));
 
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
