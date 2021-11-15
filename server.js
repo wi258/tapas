@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 var express = require('express')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
@@ -8,9 +12,11 @@ var passport = require('./config/passport')
 var util = require('./util')
 var app = express()
 
-mongoose.connect('mongodb://localhost/more', async(err) => {
-    if(err) throw err;
-})
+const mongoose = require('mongoose')
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
+const db = mongoose.connection
+db.on('error', error => console.error(error))
+db.once('open', () => console.log('Connected to Mongoose'))
 
 // Other settings
 app.set('view engine', 'ejs')
